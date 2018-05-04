@@ -29,13 +29,11 @@ unset HOST_VARS_PATH
 unset GROUP_VARS_PATH
 
 pushd tests
-  if [ -z "${BOOTSTRAP_OPTS}" ]; then
-    /opt/ansible-runtime/bin/ansible-playbook bootstrap-aio.yml \
-                     -i test-inventory.ini
-  else
-    /opt/ansible-runtime/bin/ansible-playbook bootstrap-aio.yml \
-                     -i test-inventory.ini \
-                     -e ${BOOTSTRAP_OPTS}
+  if [ -n "${BOOTSTRAP_OPTS}" ]; then
+    extra_run_args=$(echo ${BOOTSTRAP_OPTS} | tr ' ' '\n' | awk '{printf "-e %s\n",$0}' | tr '\n' ' ')
   fi
+  /opt/ansible-runtime/bin/ansible-playbook bootstrap-aio.yml \
+                   -i test-inventory.ini \
+                   $extra_run_args $*
 popd
 
