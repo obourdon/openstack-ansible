@@ -103,7 +103,7 @@
   tags:
     - check-disk-size
 
-- name: Fail if there is not enough disk space available (disk specified)
+- name: Fail if there is not enough disk space available ({{ bootstrap_host_data_disk_device }} disk specified)
   fail:
     msg: |
       Not enough disk space available.
