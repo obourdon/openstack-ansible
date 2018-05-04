@@ -50,6 +50,9 @@
   tags:
     - check-disk-size
 
+- fail: msg="Can not find disk {{ bootstrap_host_data_disk_device }}"
+  when: ansible_devices.get(bootstrap_host_data_disk_device) == None
+
 - name: Set data disk facts
   set_fact:
     host_data_disk_sectors: "{{ (ansible_devices[bootstrap_host_data_disk_device]['sectors'] | int) }}"
